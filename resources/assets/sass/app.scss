@@ -1,0 +1,25 @@
+
+// Fonts
+@import url(https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i);
+
+// Variables
+@import "bulma";
+
+@import "_helper";
+@import "_layouts";
+
+
+// Typography //
+body{
+	font-size: 11px;
+	font-family: 'Poppins', sans-serif;
+	.navbar-dropdown {
+		font-size: 11px;
+	}
+	.select select {
+	    border-radius: 2px;
+	}
+	.wraper {
+	    min-height: calc(100vh - 150px);
+	}
+}
