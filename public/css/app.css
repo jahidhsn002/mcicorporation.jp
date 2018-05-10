@@ -26694,7 +26694,7 @@ body {
 
 .a-line div {
   border-bottom: 2px solid #0091d2;
-  max-width: 10%;
+  max-width: 20%;
 }
 
 .b-line {
@@ -26705,6 +26705,60 @@ body {
   background: white;
   padding: 1px;
   max-width: 10%;
+}
+
+.pageLink .pagination {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.pageLink .pagination .page-link {
+  padding: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.pageLink .filterby a {
+  font-size: 11px;
+}
+
+.tool {
+  position: relative;
+}
+
+.tool .msg {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: normal;
+  position: absolute;
+  text-align: justify;
+  min-width: 150px;
+  min-height: 50px;
+  padding: 5px;
+  background: #ffffff;
+  border: 1px solid #0091d2;
+  color: #0091d2;
+  bottom: 25px;
+  right: 0px;
+  display: none;
+}
+
+.tool:hover .msg {
+  display: block;
+}
+
+.inqueryForm .card-header {
+  background: #0091d2;
+  color: white;
+}
+
+.inqueryForm .card-header .title {
+  color: white;
+}
+
+.inqueryForm .vehicleDetails {
+  background: #f3f3f3;
 }
 
 .app_header .top_navbar {
@@ -26817,12 +26871,37 @@ body {
 .search_box {
   background: #0091d2;
   color: white;
-  border-radius: 2px;
+  border-radius: 1px;
+  color: #363636;
+  -webkit-box-shadow: 0px 0px 0px transparent;
+          box-shadow: 0px 0px 0px transparent;
+}
+
+.search_box .input,
+.search_box .taginput .taginput-container.is-focusable,
+.taginput .search_box .taginput-container.is-focusable,
+.search_box .select select,
+.search_box .button {
+  border-radius: 1px;
+}
+
+.search_box .submit {
+  width: 100%;
 }
 
 .search_box .title,
 .search_box .label {
   color: white;
+}
+
+.archiveCalculator {
+  border: 1px solid #1783b8;
+  background-color: #f3fbff;
+  border-radius: 1px;
+}
+
+.archiveCalculator .submit {
+  width: 100%;
 }
 
 .page_single .feature .box {
@@ -26831,8 +26910,12 @@ body {
 }
 
 .page_single .feature .box.selected {
-  background: #0091d2;
-  color: white;
+  background: #ffcfa6;
+  color: #0a0a0a;
+}
+
+.page_single .lg_button .button {
+  font-size: 20px;
 }
 
 .archive .data_table td {
@@ -26844,8 +26927,9 @@ body {
 }
 
 .archive .search_box {
-  background: #ffe8bd;
   color: #363636;
+  border: 1px solid #FF9800;
+  background: #ffe8bd;
 }
 
 .archive .search_box .title,
@@ -26868,5 +26952,29 @@ body .select select {
 
 body .wraper {
   min-height: calc(100vh - 150px);
+}
+
+body .table.is-striped tbody tr:not(.is-selected):nth-child(even) {
+  background-color: #f3f3f3;
+}
+
+body .v-select {
+  width: 100%;
+}
+
+body .v-select .dropdown-toggle {
+  width: 100%;
+}
+
+body .v-select .dropdown-toggle .open-indicator {
+  top: 5px;
+}
+
+body .v-select .dropdown-toggle .form-control {
+  max-height: 25px;
+}
+
+body .ash {
+  background: #e8eff9;
 }
 

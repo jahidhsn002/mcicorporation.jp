@@ -3,7 +3,7 @@
 @section('content')
     <div class="container page_single">
         <div class="columns">
-            <div class="column is-8 is-offset-2">
+            <div class="column is-10 is-offset-1">
                 <div class="columns my-0 is-multiline">
                     <div class="column is-6">
                         @if($vehicle->thumbnail)
@@ -31,18 +31,23 @@
                     </div>
                     <div class="column is-6">
                         <h3 class="title is-4">{{$vehicle->name}}</h3>
-                        <div class="price columns">
+                        <div class="price columns mb-0">
                             <div class="column is-8">
-                                
-                                <h4 class="title is-5 box mb-10 py-10 has-text-right">
+                                <div class="box mb-0 pa-10 has-text-right">
                                     @if($vehicle->actual_price)
-                                        <del>Actual price: <span class="has-text-success">{{$vehicle->actual_price}}</span></del> <br/>
+                                        <h4 class="title is-5 my-5">
+                                            Original Price: <del>{{$vehicle->actual_price}}</del> <br/>
+                                        </h4>
                                     @endif
-                                    Current price: <span class="has-text-success">{{$vehicle->price}}</span> <br/>
+                                    <h4 class="title is-4 my-5">
+                                        Current price: <span class="has-text-success">{{$vehicle->price}}</span> <br/>
+                                    </h4>
                                     @if($vehicle->actual_price)
-                                        You Save: <span class="has-text-success">{{$vehicle->actual_price - $vehicle->price}}</span>
+                                    <h4 class="title is-5 my-5">
+                                        You Save: <span class="has-text-danger">{{$vehicle->actual_price - $vehicle->price}}</span>
+                                    </h4>
                                     @endif
-                                </h4>
+                                </div>
                             </div>
                             <div class="column">
                                 @if(Auth::check())
@@ -54,15 +59,33 @@
                                 <button class="button is-warning" style="width:100%">Print</button>
                             </div>
                         </div>
-                        <a href="#step" class="button is-large is-warning has-text-uppercase mb-10">Get a price quote now</a>
+                        <div class="has-text-left lg_button mb-20">
+                            <app-model>
+                                    <span slot="button">
+                                        Get a price quote now
+                                    </span>
+                                    <inquery-form
+                                        ajax_inquery_url = "{{ route('ajax_inquery') }}"
+                                        @if(isset($vehicle->id)) vehicle_id="{{ $vehicle->id }}" @endif
+                                        @if(isset($_REQUEST['country_id'])) country_id="{{ $_REQUEST['country_id'] }}" @endif
+                                        @if(isset($_REQUEST['port_id'])) port_id="{{ $_REQUEST['port_id'] }}" @endif
+
+                                        @if(isset($_REQUEST['insurance'])) insurance="{{ $_REQUEST['insurance'] }}" @endif
+                                        @if(isset($_REQUEST['inspection'])) inspection="{{ $_REQUEST['inspection'] }}" @endif
+                                        @if(isset($_REQUEST['certificate'])) certificate="{{ $_REQUEST['certificate'] }}" @endif
+                                        @if(isset($_REQUEST['warranty'])) warranty="{{ $_REQUEST['warranty'] }}" @endif
+                                        
+                                    ></inquery-form>
+                                </app-model>
+                        </div>
                         <div class="card">
                             <header class="card-header">
-                                <p class="card-header-title">Specs</p>
+                                <p class="card-header-title is-5 title">Specs</p>
                             </header>
-                            <div class="card-content">
+                            <div class="card-content pa-0">
                                 <div class="columns is-gapless">
                                     <div class="column is-6 pa-0">
-                                        <table class="table mb-5" width="100%">
+                                        <table class="table is-striped mb-5" width="100%">
                                             <tr>
                                                 <th>Ref No</th>
                                                 <td>{{$vehicle->ref_no}}</td>
@@ -133,7 +156,7 @@
                                         </div>
                                     </div>
                                     <div class="column is-6 pa-0">
-                                        <table class="table mb-5" width="100%">
+                                        <table class="table is-striped mb-5" width="100%">
                                             @foreach($vehicle->taxonomies as $tax_meta)
                                             <tr>
                                                 <th>{{$tax_meta->taxonomy->name}}</th>
@@ -145,13 +168,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card feature">
-                            <h3 class="title is-4 px-10 pt-15 pb-0 mb-0">Standard features</h3>
+                        <div class="card feature mt-10">
+                            <h3 class="title is-5 px-10 pt-15 pb-0 mb-0">Standard features</h3>
                             <div class="card-content">
                                 <div class="columns is-multiline is-gapless">
                                     @foreach($features as $feat)
-                                    <div class="column is-3 box {{in_array($feat->id, $feature_selected)?'selected':''}}">
-                                        <div class="pa-10">{{$feat->name}}</div>
+                                    <div class="column is-3">
+                                        <div class="pa-10 box ma-2 is-radiusless {{in_array($feat->id, $feature_selected)?'selected':''}}">{{$feat->name}}</div>
                                     </div>
                                     @endforeach
                                 </div>
@@ -159,172 +182,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="column is-8 is-offset-2">
-                    
-                    <!-- Step 01 -->
-                    @if(count($ports)<=0)
-                    <div class="card" id="step">
-                        <header class="card-header">
-                            <p class="card-header-title">Step 1. CHOOSE YOUR DELIVERY OPTIONS</p>
-                        </header>
-                        <div class="card-content">
-                            <form action="{{ route('single', ['id'=> $vehicle->id]) }}#step" method="GET">
-                                <div class="field">
-                                    <label class="label">Choose Final Country*</label>
-                                    <div class="control">
-                                        <div class="select">
-                                          <select name="country_id">
-                                            <option>Select</option>
-                                            @foreach($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                            @endforeach
-                                          </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <button class="button is-dark px-50" type="submit">Next</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    @endif
+                <div class="column is-6 is-offset-3">
 
+                    <form action="{{ route('inquary_email') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="_method" value="post">
 
-                    @if(count($ports)>0)
-                    <div class="card" id="step">
-                        <header class="card-header">
-                            <p class="card-header-title">Step 2. CHOOSE YOUR DELIVERY OPTIONS</p>
-                        </header>
-                        <div class="card-content">
-                            <form action="{{ route('inquary_email') }}#sep-1" method="POST">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="_method" value="patch">
-                                <input type="hidden" name="vehicle_id" value="{{ $vehicle->id }}">
-                                <div class="field">
-                                    <label class="label">Choose Final Country*</label>
-                                    <div class="control">
-                                        <div class="select">
-                                          <select name="country_id">
-                                            <option>Select</option>
-                                            @foreach($countries as $country)
-                                            <option value="{{ $country->id }}"
-                                                @if(isset($_REQUEST['country_id']))
-                                                    @if($_REQUEST['country_id']==$country->id)
-                                                        selected
-                                                    @endif
-                                                @endif
-                                            >{{ $country->name }}</option>
-                                            @endforeach
-                                          </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <table class="table" width="100%">
-                                        <tr>
-                                            <th>Choose</th>
-                                            <th>Port</th>
-                                            <th>Destination</th>
-                                            <th>Cost</th>
-                                            <th>Total</th>
-                                        </tr>
-                                        @foreach($ports as $port)
-                                        <tr>
-                                            <td>
-                                                <div class="control">
-                                                    <label class="radio">
-                                                      <input value="{{ $port->id }}" type="radio" name="port_id" 
-                                                        @if(isset($_REQUEST['port_id']))
-                                                            @if($_REQUEST['port_id']==$port->id)
-                                                                checked
-                                                            @endif
-                                                        @endif
-                                                      >
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td>{{ $port->name }}</td>
-                                            <td>{{ $port->name }} (port)</td>
-                                            <td>{{ $port->insurance+$port->inspection+$port->certificate+$port->warranty }}</td>
-                                            <td>{{ $vehicle->price+$port->insurance+$port->inspection+$port->certificate+$port->warranty }}</td>
-                                        </tr>
-                                        @endforeach
-                                    </table>
-                                </div>
-                                <div class="field">
-                                    <button class="button is-dark px-50" type="submit">Get Quote</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                        <inquery-form-2
 
-                    <div class="card mt-15">
-                        <header class="card-header">
-                            <p class="card-header-title">Step 3. YOUR DETAILS</p>
-                        </header>
-                        <div class="card-content">
-                            <div class="columns">
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label class="label">Name*</label>
-                                        <div class="control">
-                                            <input class="input" type="text" name="name" 
-                                                @if(Auth::check())
-                                                value="{{Auth::user()->name}}"
-                                                @endif
-                                            >
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Email*</label>
-                                        <div class="control">
-                                            <input class="input" type="email" name="email" 
-                                                @if(Auth::check())
-                                                value="{{Auth::user()->email}}"
-                                                @endif
-                                            >
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Phone*</label>
-                                        <div class="control">
-                                            <input class="input" type="text" name="phone" 
-                                                @if(Auth::check())
-                                                value="{{Auth::user()->phone}}"
-                                                @endif
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="column is-6">
-                                    <div class="field">
-                                        <label class="label">City*</label>
-                                        <div class="control">
-                                            <input class="input" type="text" name="city" 
-                                                @if(Auth::check())
-                                                value="{{Auth::user()->city}}"
-                                                @endif
-                                            >
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Address*</label>
-                                        <div class="control">
-                                            <input class="input" type="text" name="address" 
-                                                @if(Auth::check())
-                                                value="{{Auth::user()->address}}"
-                                                @endif
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            ajax_inquery_url = "{{ route('ajax_inquery') }}"
+                            @if(isset($vehicle->id)) vehicle_id="{{ $vehicle->id }}" @endif
+                            @if(isset($_REQUEST['country_id'])) country_id="{{ $_REQUEST['country_id'] }}" @endif
+                            @if(isset($_REQUEST['port_id'])) port_id="{{ $_REQUEST['port_id'] }}" @endif
 
-                    @endif
+                            @if(isset($_REQUEST['insurance'])) insurance="{{ $_REQUEST['insurance'] }}" @endif
+                            @if(isset($_REQUEST['inspection'])) inspection="{{ $_REQUEST['inspection'] }}" @endif
+                            @if(isset($_REQUEST['certificate'])) certificate="{{ $_REQUEST['certificate'] }}" @endif
+                            @if(isset($_REQUEST['warranty'])) warranty="{{ $_REQUEST['warranty'] }}" @endif
+                            
+                        ></inquery-form-2>
 
+                    </form>
 
                     <div class="card mt-15">
                         <header class="card-header">

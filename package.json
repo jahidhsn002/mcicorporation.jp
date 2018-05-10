@@ -27,6 +27,8 @@
         "feature": "^1.0.1",
         "font-awesome": "^4.7.0",
         "image-zoom": "^1.1.1",
+        "select2": "^4.0.6-rc.1",
+        "vue-select": "^2.4.0",
         "zooming": "^2.0.0"
     }
 }

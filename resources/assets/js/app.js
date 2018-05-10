@@ -12,6 +12,7 @@ window.Vue = require('vue');
 import Buefy from 'buefy';
 import app from './_handlar';
 import Zooming from 'zooming';
+import vSelect from 'vue-select'
 
 
 /**
@@ -34,6 +35,7 @@ if (token) {
 Vue.prototype.$app = window.$app = app
 Vue.prototype.$url = window.$url = url.content
 Vue.use(Buefy, { defaultIconPack: 'fa' });
+Vue.component('v-select', vSelect);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -42,8 +44,16 @@ Vue.use(Buefy, { defaultIconPack: 'fa' });
  */
 
 Vue.component('field-image', require('./components/field-image.vue'));
+Vue.component('inquery-form', require('./components/inqueryForm.vue'));
+Vue.component('inquery-form-2', require('./components/inqueryForm2.vue'));
+Vue.component('app-model', require('./components/appModel.vue'));
 
-const base = new Vue({ el: '#app' });
+const base = new Vue({
+    el: '#app',
+    data: {
+        inqueryForm: {}
+    }
+});
 
 
 // Bulma NavBar Burger Script
@@ -70,9 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    const zooming = new Zooming({
-        // options...
-    })
+    const zooming = new Zooming()
 
     zooming.listen('.joomable')
 })

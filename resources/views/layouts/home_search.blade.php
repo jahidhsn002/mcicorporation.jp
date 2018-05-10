@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="column is-2">
-            <button class="button is-white px-30" type="submit"><b>Search</b></button>
+            <button class="button is-white px-30 submit" type="submit"><b>Search</b></button>
         </div>
     </div>
     <div class="columns is-multiline">

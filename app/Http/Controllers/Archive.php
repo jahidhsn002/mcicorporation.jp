@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Core\Sidebar;
 
+use App\User;
 use App\Port;
 use App\Country;
 use App\Vehicle;
@@ -72,10 +73,11 @@ class Archive extends Controller
     {
         $feature_selected = [];
         $taxonomy_selected = [];
-        $vehicles = Vehicle::orderBy('name', 'desc');
 
         if($req["order-key"]&&$req["order-by"]):
-            $vehicles->orderBy($req["order-by"], $req["order-key"]);
+            $vehicles = Vehicle::orderBy($req["order-by"], $req["order-key"]);
+        else:
+            $vehicles = Vehicle::orderBy('name', 'desc');
         endif;
 
         if($req["search"]):
@@ -126,13 +128,25 @@ class Archive extends Controller
             }
         endif;
 
-        $vehicles = $vehicles->get();
+        $vehicles = $vehicles->paginate(10);
         $features = Feature::all();
         $sidebar = Sidebar::all();
         $countries = Country::all();
         $country = Country::find($req['country_id']);
-        $ports = Port::where('country_id', $req['country_id'])->get();
+        // Port List
+        $dbPort = Port::orderBy('name', 'desc');
+        if($req['country_id']) $dbPort->where('country_id', $req["country_id"]);
+        $ports = $dbPort->get();
+
         $port = Port::find($req['port_id']);
+
+        foreach ($vehicles as $vehicle) {
+            $vehicle->total = $vehicle->price;
+            if($req["insurance"]=='On'&&$port) $vehicle->total += $port->insurance;
+            if($req["inspection"]=='On'&&$port) $vehicle->total += $port->inspection;
+            if($req["warranty"]=='On'&&$port) $vehicle->total += $port->warranty;
+            if($req["certificate"]=='On'&&$port) $vehicle->total += $port->certificate;
+        }
 
         return view('archive', [
             'taxonomy_selected' => $taxonomy_selected,
@@ -183,7 +197,9 @@ class Archive extends Controller
         $user->city = $req['city'];
         $user->address = $req['address'];
 
-        Mail::to($req->user())->cc(['hublink3@gmail.com'])->send(new Inquary(
+        Mail::to($user)->cc([
+            ['email'=>'hublink3@gmail.com', 'name'=>'Hub Link']
+        ])->send(new Inquary(
             $user, $country, $port, $vehicle
         ));
         return back();

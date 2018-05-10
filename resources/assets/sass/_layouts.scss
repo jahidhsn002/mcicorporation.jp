@@ -3,7 +3,7 @@
 	border-bottom: 1px solid $warning;
 	div {
 		border-bottom: 2px solid $warning;
-		max-width: 10%;
+		max-width: 20%;
 	}
 }
 .b-line {
@@ -14,7 +14,55 @@
 		max-width: 10%;
 	}
 }
-
+.pageLink{
+	.pagination{
+		display: inline-flex;
+		.page-link {
+			padding: 5px;
+		    font-size: 15px;
+		    font-weight: bold;
+		}
+	}
+	.filterby a{
+		font-size: 11px;
+	}
+}
+.tool {
+    position: relative;
+	.msg {
+	    font-size: 10px;
+	    line-height: 12px;
+	    font-weight: normal;
+	    position: absolute;
+	    text-align: justify;
+	    min-width: 150px;
+	    min-height: 50px;
+	    padding: 5px;
+	    background: #ffffff;
+	    border: 1px solid $warning;
+	    color: $warning;
+	    bottom: 25px;
+	    right: 0px;
+	    display:none;
+	}
+}
+.tool:hover {
+    .msg {
+	    display:block;
+	}
+}
+.inqueryForm{
+	.card-header{
+		background: $warning;
+		color: $white;
+		.title{
+			color: $white;
+		}
+	}
+	.vehicleDetails {
+	    background: #f3f3f3;
+	}
+}
 .app_header {
 	.top_navbar {
 	    min-height: 30px;
@@ -127,10 +175,26 @@
 .search_box {
 	background: $warning;
 	color: $white;
-	border-radius: 2px;
+	border-radius: 1px;
+    color: #363636;
+    box-shadow: 0px 0px 0px transparent;
+	.input, .select select, .button{
+	    border-radius: 1px;
+	}
+	.submit{
+	    width:100%;
+	}
 	.title, .label {
 		color: $white;
 	}
+}
+.archiveCalculator{
+    border: 1px solid #1783b8;
+    background-color: #f3fbff;
+	border-radius: 1px;
+    .submit{
+    	width: 100%;
+    }
 }
 .page_single {
 	.feature {
@@ -139,9 +203,12 @@
 			color: $grey-light;
 		}
 		.box.selected {
-			background: $warning;
-			color: $white;
+			background: #ffcfa6;
+   	 		color: $black;
 		}
+	}
+	.lg_button .button{
+		font-size: 20px;
 	}
 }
 .archive {
@@ -154,8 +221,9 @@
 	    }
 	}
 	.search_box {
-		background: #ffe8bd;
 		color: $dark;
+    	border: 1px solid #FF9800;
+		background: #ffe8bd;
 		.title, .label {
 			color: $dark;
 		}

@@ -86,8 +86,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::patch('/inquary/email', 'Archive@inquary_email')->name('inquary_email');
+Route::post('/inquary/email', 'Archive@inquary_email')->name('inquary_email');
 Route::post('/upload', 'Core\Upload@handle')->name('uploads');
+
+// Inquery Forms
+Route::post('/backend/inquery', 'Backend\AppInquery@index')->name('ajax_inquery');
 
 // Route::get('mail', function () {
 //     $markdown = new Markdown(view(), config('mail.markdown'));

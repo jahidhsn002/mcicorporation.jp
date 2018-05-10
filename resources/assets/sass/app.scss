@@ -22,4 +22,22 @@ body{
 	.wraper {
 	    min-height: calc(100vh - 150px);
 	}
+	.table.is-striped tbody tr:not(.is-selected):nth-child(even) {
+	    background-color: #f3f3f3;
+	}
+	.v-select{
+	    width: 100%;
+	   	.dropdown-toggle{
+	    	width: 100%;
+	    	.open-indicator{
+	    		top: 5px;
+	    	}
+	    	.form-control{
+	    		max-height: 25px;
+	    	}
+	    }
+	}
+	.ash{
+		background: #e8eff9;
+	}
 }
